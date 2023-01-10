@@ -1,3 +1,7 @@
+## !IMPORTANT! ##
+
+This is a temporary fork of [cyrildgn's postgresql provider](https://registry.terraform.io/providers/cyrilgdn/postgresql/1.15.0) and will only be maintained until the changes in this fork for schema, table and sequence data sources are merged into the master code repository.
+
 Terraform Provider for PostgreSQL
 =================================
 
@@ -6,7 +10,7 @@ This provider allows to manage with Terraform [Postgresql](https://www.postgresq
 It's published on the [Terraform registry](https://registry.terraform.io/providers/cyrilgdn/postgresql/latest/docs).
 It replaces https://github.com/hashicorp/terraform-provider-postgresql since Hashicorp stopped hosting community providers in favor of the Terraform registry.
 
-- Documentation: https://registry.terraform.io/providers/cyrilgdn/postgresql/latest/docs
+- Documentation: https://registry.terraform.io/providers/SpencerBinXia/postgresql/latest/docs
 
 Requirements
 ------------
@@ -17,7 +21,7 @@ Requirements
 Building The Provider
 ---------------------
 
-Clone repository to: `$GOPATH/src/github.com/cyrilgdn/terraform-provider-postgresql`
+Clone repository to: `$GOPATH/src/github.com/SpencerBinXia/terraform-provider-postgresql`
 
 ```sh
 $ mkdir -p $GOPATH/src/github.com/cyrilgdn; cd $GOPATH/src/github.com/cyrilgdn
@@ -27,7 +31,7 @@ $ git clone git@github.com:cyrilgdn/terraform-provider-postgresql
 Enter the provider directory and build the provider
 
 ```sh
-$ cd $GOPATH/src/github.com/cyrilgdn/terraform-provider-postgresql
+$ cd $GOPATH/src/github.com/SpencerBinXia/terraform-provider-postgresql
 $ make build
 ```
 
@@ -60,6 +64,7 @@ In order to run the full suite of Acceptance tests, run `make testacc`.
 
 *Note:* 
 - Acceptance tests create real resources, and often cost money to run.
+- If ran locally `docker-compose` needs to be in the `$PATH`
 
 ```sh
 $ make testacc
