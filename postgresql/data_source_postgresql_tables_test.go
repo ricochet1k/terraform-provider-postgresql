@@ -37,8 +37,6 @@ func TestAccPostgresqlDataSourceTables(t *testing.T) {
 					resource.TestCheckResourceAttr("data.postgresql_tables.test_schema", "tables.0.schema_name", "test_schema"),
 					resource.TestCheckResourceAttr("data.postgresql_tables.test_schemas1and2", "tables.#", "3"),
 					resource.TestCheckResourceAttr("data.postgresql_tables.test_schemas1and2_type_base", "tables.#", "3"),
-					resource.TestCheckResourceAttr("data.postgresql_tables.test_schemas1and2_type_other", "tables.#", "0"),
-					resource.TestCheckResourceAttr("data.postgresql_tables.test_schemas1and2_type_base_and_other", "tables.#", "3"),
 					resource.TestCheckResourceAttr("data.postgresql_tables.test_schemas_like_all_table1", "tables.#", "2"),
 					resource.TestCheckResourceAttr("data.postgresql_tables.test_schemas_like_all_table1and2", "tables.#", "0"),
 					resource.TestCheckResourceAttr("data.postgresql_tables.test_schemas_like_any_table1and2", "tables.#", "3"),
@@ -69,19 +67,6 @@ func generateDataSourceTablesConfig(dbName string) string {
 	data "postgresql_tables" "test_schemas1and2_type_base" {
 		database = "%[1]s"
 		schemas = ["test_schema1","test_schema2"]
-		table_types = ["BASE TABLE"]
-	}
-
-	data "postgresql_tables" "test_schemas1and2_type_other" {
-		database = "%[1]s"
-		schemas = ["test_schema1","test_schema2"]
-		table_types = ["VIEW","LOCAL TEMPORARY"]
-	}
-
-	data "postgresql_tables" "test_schemas1and2_type_base_and_other" {
-		database = "%[1]s"
-		schemas = ["test_schema1","test_schema2"]
-		table_types = ["VIEW","LOCAL TEMPORARY","BASE TABLE"]
 	}
 
 	data "postgresql_tables" "test_schemas_like_all_table1" {

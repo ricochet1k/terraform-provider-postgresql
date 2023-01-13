@@ -34,6 +34,9 @@ func TestAccPostgresqlDataSourceQuery(t *testing.T) {
 			{
 				Config: testAccPostgresqlDataSourceQueryConfig,
 				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr("data.postgresql_query.test_empty", "columns.#", "1"),
+					resource.TestCheckResourceAttr("data.postgresql_query.test_empty", "columns.0.name", "val"),
+					resource.TestCheckResourceAttr("data.postgresql_query.test_empty", "columns.0.type", "TEXT"),
 					resource.TestCheckResourceAttr("data.postgresql_query.test_empty", "rows.#", "0"),
 					resource.TestCheckResourceAttr("data.postgresql_query.test_schema", "columns.#", "2"),
 					resource.TestCheckResourceAttr("data.postgresql_query.test_schema", "columns.0.name", "a"),
