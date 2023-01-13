@@ -25,14 +25,14 @@ func TestAccPostgresqlDataSourceQuery(t *testing.T) {
 
 	dbName, _ := getTestDBNames(dbSuffix)
 
-	testAccPostgresqlDataSourceTablesDatabaseConfig := generateDataSourceTablesConfig(dbName)
+	testAccPostgresqlDataSourceQueryConfig := generateDataSourceQueryConfig(dbName)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
 		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccPostgresqlDataSourceTablesDatabaseConfig,
+				Config: testAccPostgresqlDataSourceQueryConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr("data.postgresql_query.test_empty", "rows.#", "0"),
 					resource.TestCheckResourceAttr("data.postgresql_query.test_schema", "columns.#", "2"),
