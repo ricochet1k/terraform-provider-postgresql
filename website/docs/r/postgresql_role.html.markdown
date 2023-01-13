@@ -118,6 +118,8 @@ resource "postgresql_role" "my_replication_role" {
 
 * `assume_role` - (Optional) Defines the role to switch to at login via [`SET ROLE`](https://www.postgresql.org/docs/current/sql-set-role.html).
 
+* `enable_logs` - (Optional) Enables logs when creating a role.  Keep disabled to prevent passwords from leaking into the logs.  Default value is `false`.
+
 ## Import Example
 
 `postgresql_role` supports importing resources.  Supposing the following
