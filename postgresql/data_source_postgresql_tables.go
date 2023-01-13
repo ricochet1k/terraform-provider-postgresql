@@ -11,6 +11,7 @@ const (
 	tableQuery = `
 	SELECT schemaname, tablename
 	FROM pg_catalog.pg_tables
+	WHERE schemaname NOT IN ('pg_catalog', 'information_schema')
 	`
 	tableSchemaKeyword         = "schemaname"
 	tablePatternMatchingTarget = "tablename"
@@ -97,7 +98,7 @@ func dataSourcePostgreSQLTablesRead(db *DBConnection, d *schema.ResourceData) er
 	defer deferredRollback(txn)
 
 	query := tableQuery
-	queryConcatKeyword := queryConcatKeywordWhere
+	queryConcatKeyword := queryConcatKeywordAnd
 
 	query = applyEqualsAnyFilteringToQuery(query, &queryConcatKeyword, tableSchemaKeyword, d.Get("schemas").([]interface{}))
 	query = applyOptionalPatternMatchingToQuery(query, tablePatternMatchingTarget, &queryConcatKeyword, d)
