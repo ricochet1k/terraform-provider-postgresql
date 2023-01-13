@@ -346,6 +346,7 @@ func insertTestRows(t *testing.T, dbSuffix string, table string, columns []strin
 
 	placeholders := ""
 	args := []interface{}{}
+	n := 1
 	for i, row := range rows {
 		if i > 0 {
 			placeholders += ", "
@@ -355,7 +356,8 @@ func insertTestRows(t *testing.T, dbSuffix string, table string, columns []strin
 			if j > 0 {
 				placeholders += ", "
 			}
-			placeholders += "?"
+			placeholders += fmt.Sprintf("$%v", n)
+			n += 1
 			args = append(args, col)
 		}
 		placeholders += ")"
