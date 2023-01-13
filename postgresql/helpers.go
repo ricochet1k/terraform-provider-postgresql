@@ -353,7 +353,7 @@ func getCurrentUser(db QueryAble) (string, error) {
 	err := db.QueryRow("SELECT CURRENT_USER").Scan(&currentUser)
 	switch {
 	case err == sql.ErrNoRows:
-		return "", fmt.Errorf("SELECT CURRENT_USER returns now row, this is quite disturbing")
+		return "", fmt.Errorf("SELECT CURRENT_USER returns no row, this is quite disturbing")
 	case err != nil:
 		return "", fmt.Errorf("error while looking for the current user: %w", err)
 	}

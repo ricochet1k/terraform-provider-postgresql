@@ -9,12 +9,11 @@ import (
 
 const (
 	tableQuery = `
-	SELECT table_name, table_schema, table_type
-	FROM information_schema.tables
+	SELECT schemaname, tablename
+	FROM pg_catalog.pg_tables
 	`
-	tablePatternMatchingTarget = "table_name"
-	tableSchemaKeyword         = "table_schema"
-	tableTypeKeyword           = "table_type"
+	tableSchemaKeyword         = "schemaname"
+	tablePatternMatchingTarget = "tablename"
 )
 
 func dataSourcePostgreSQLDatabaseTables() *schema.Resource {
@@ -72,21 +71,17 @@ func dataSourcePostgreSQLDatabaseTables() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"object_name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
 						"schema_name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"table_type": {
+						"table_name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
-				Description: "The list of PostgreSQL tables retrieved by this data source. Note that this returns a set, so duplicate table names across different schemas will be consolidated.",
+				Description: "The list of PostgreSQL tables retrieved from pg_catalog.pg_tables.",
 			},
 		},
 	}
@@ -105,7 +100,6 @@ func dataSourcePostgreSQLTablesRead(db *DBConnection, d *schema.ResourceData) er
 	queryConcatKeyword := queryConcatKeywordWhere
 
 	query = applyEqualsAnyFilteringToQuery(query, &queryConcatKeyword, tableSchemaKeyword, d.Get("schemas").([]interface{}))
-	query = applyEqualsAnyFilteringToQuery(query, &queryConcatKeyword, tableTypeKeyword, d.Get("table_types").([]interface{}))
 	query = applyOptionalPatternMatchingToQuery(query, tablePatternMatchingTarget, &queryConcatKeyword, d)
 
 	rows, err := txn.Query(query)
@@ -116,18 +110,16 @@ func dataSourcePostgreSQLTablesRead(db *DBConnection, d *schema.ResourceData) er
 
 	tables := make([]interface{}, 0)
 	for rows.Next() {
-		var object_name string
+		var table_name string
 		var schema_name string
-		var table_type string
 
-		if err = rows.Scan(&object_name, &schema_name, &table_type); err != nil {
+		if err = rows.Scan(&schema_name, &table_name); err != nil {
 			return fmt.Errorf("could not scan table output for database: %w", err)
 		}
 
 		result := make(map[string]interface{})
-		result["object_name"] = object_name
 		result["schema_name"] = schema_name
-		result["table_type"] = table_type
+		result["table_name"] = table_name
 		tables = append(tables, result)
 	}
 
