@@ -1,3 +1,10 @@
+## 1.20.0(January 13, 2023)
+
+FEATURES:
+
+* `postgresql_tables`: Switch to using pg_catalog to see all tables, removes `table_type` and only queries tables (not views, etc.) - @ricochet1k
+* **New data source**: `postgresql_query` - Run any query as a data source - @ricochet1k
+
 ## 1.15.0-1.0.0(February 23, 2022)
 
 FEATURES:
