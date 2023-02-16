@@ -10,12 +10,12 @@ import (
 
 var schemaQueries = map[string]string{
 	"query_include_system_schemas": `
-	SELECT schema_name
-	FROM information_schema.schemata
+	SELECT nspname::text AS schema_name
+	FROM pg_catalog.pg_namespace
 	`,
 	"query_exclude_system_schemas": `
-	SELECT schema_name
-	FROM information_schema.schemata
+	SELECT nspname::text AS schema_name
+	FROM pg_catalog.pg_namespace
 	WHERE schema_name NOT LIKE 'pg_%'
 	AND schema_name <> 'information_schema'
 	`,
@@ -98,6 +98,7 @@ func dataSourcePostgreSQLSchemasRead(db *DBConnection, d *schema.ResourceData) e
 	}
 
 	query = applyOptionalPatternMatchingToQuery(query, schemaPatternMatchingTarget, &queryConcatKeyword, d)
+	query += " ORDER BY nspname"
 
 	rows, err := txn.Query(query)
 	if err != nil {

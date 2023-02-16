@@ -54,3 +54,13 @@ resource "postgresql_function" "increment" {
 
 * `drop_cascade` - (Optional) True to automatically drop objects that depend on the function (such as 
   operators or triggers), and in turn all objects that depend on those objects. Default is false.
+
+## Import Example
+
+Function can be imported by quoting the schema and function name and putting all non-OUT argument types in parens:
+
+```sh
+$ terraform import postgresql_function.some_function '"{{schema}}"."{{name}}"({{arg1_type}},{{arg2_type}},{{...}})'
+# example:
+$ terraform import postgresql_function.some_function '"public"."foo"(TEXT)'
+```

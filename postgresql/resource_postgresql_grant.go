@@ -60,6 +60,12 @@ func resourcePostgreSQLGrant() *schema.Resource {
 				ForceNew:    true,
 				Description: "The database schema to grant privileges on for this role",
 			},
+			"id_suffix": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				ForceNew:    true,
+				Description: "Add this to the state id to make this resource different from others with the same role/database/schema/object_type",
+			},
 			"object_type": {
 				Type:         schema.TypeString,
 				Required:     true,
@@ -70,7 +76,6 @@ func resourcePostgreSQLGrant() *schema.Resource {
 			"objects": {
 				Type:        schema.TypeSet,
 				Optional:    true,
-				ForceNew:    true,
 				Elem:        &schema.Schema{Type: schema.TypeString},
 				Set:         schema.HashString,
 				Description: "The specific objects to grant privileges on for this role (empty means all objects of the requested type)",
@@ -617,8 +622,9 @@ func generateGrantID(d *schema.ResourceData) string {
 	}
 	parts = append(parts, objectType)
 
-	for _, object := range d.Get("objects").(*schema.Set).List() {
-		parts = append(parts, object.(string))
+	suffix := d.Get("id_suffix").(string)
+	if suffix != "" {
+		parts = append(parts, suffix)
 	}
 
 	return strings.Join(parts, "_")
