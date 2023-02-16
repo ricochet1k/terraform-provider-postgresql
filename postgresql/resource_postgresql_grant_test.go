@@ -751,7 +751,7 @@ resource postgresql_grant "test" {
 					{
 						Config: tfConfig,
 						Check: resource.ComposeTestCheckFunc(
-							resource.TestCheckResourceAttr("postgresql_grant.test", "id", fmt.Sprintf("%s_postgres_test_schema_function_test(text, char)", role)),
+							resource.TestCheckResourceAttr("postgresql_grant.test", "id", fmt.Sprintf("%s_postgres_test_schema_function", role)),
 							resource.TestCheckResourceAttr("postgresql_grant.test", "privileges.#", "1"),
 							resource.TestCheckResourceAttr("postgresql_grant.test", "privileges.0", "EXECUTE"),
 							resource.TestCheckResourceAttr("postgresql_grant.test", "with_grant_option", "false"),
@@ -1061,7 +1061,7 @@ resource "postgresql_grant" "test" {
 			{
 				Config: fmt.Sprintf(tfConfig, `["USAGE"]`, `true`),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("postgresql_grant.test", "id", "test_role_postgres_foreign_data_wrapper_test_fdw"),
+					resource.TestCheckResourceAttr("postgresql_grant.test", "id", "test_role_postgres_foreign_data_wrapper"),
 					resource.TestCheckResourceAttr("postgresql_grant.test", "privileges.#", "1"),
 					resource.TestCheckResourceAttr("postgresql_grant.test", "with_grant_option", "true"),
 					testCheckForeignDataWrapperPrivileges(t, true),
@@ -1126,7 +1126,7 @@ resource "postgresql_grant" "test" {
 			{
 				Config: fmt.Sprintf(tfConfig, `["USAGE"]`, `false`),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("postgresql_grant.test", "id", "test_role_postgres_foreign_server_test_srv"),
+					resource.TestCheckResourceAttr("postgresql_grant.test", "id", "test_role_postgres_foreign_server"),
 					resource.TestCheckResourceAttr("postgresql_grant.test", "privileges.#", "1"),
 					resource.TestCheckResourceAttr("postgresql_grant.test", "with_grant_option", "false"),
 					testCheckForeignServerPrivileges(t, true),
