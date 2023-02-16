@@ -16,8 +16,8 @@ var schemaQueries = map[string]string{
 	"query_exclude_system_schemas": `
 	SELECT nspname::text AS schema_name
 	FROM pg_catalog.pg_namespace
-	WHERE schema_name NOT LIKE 'pg_%'
-	AND schema_name <> 'information_schema'
+	WHERE nspname::text NOT LIKE 'pg_%'
+	AND nspname::text <> 'information_schema'
 	`,
 }
 
