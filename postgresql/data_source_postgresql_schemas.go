@@ -21,7 +21,7 @@ var schemaQueries = map[string]string{
 	`,
 }
 
-const schemaPatternMatchingTarget = "schema_name"
+const schemaPatternMatchingTarget = "nspname::text"
 
 func dataSourcePostgreSQLDatabaseSchemas() *schema.Resource {
 	return &schema.Resource{
