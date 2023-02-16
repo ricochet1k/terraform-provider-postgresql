@@ -383,7 +383,7 @@ func TestAccPostgresqlGrantObjects(t *testing.T) {
 				Config: fmt.Sprintf(testGrant, `["test_table"]`),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"postgresql_grant.test", "id", fmt.Sprintf("%s_%s_test_schema_table_test_table", roleName, dbName),
+						"postgresql_grant.test", "id", fmt.Sprintf("%s_%s_test_schema_table", roleName, dbName),
 					),
 					resource.TestCheckResourceAttr("postgresql_grant.test", "objects.#", "1"),
 					resource.TestCheckResourceAttr("postgresql_grant.test", "objects.0", "test_table"),
